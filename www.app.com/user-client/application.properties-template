@@ -1,0 +1,16 @@
+# Server
+server.port = {{ port }}
+
+# Build
+build.with.emailMock = {{ boolean }}
+
+# Database
+spring.datasource.url = jdbc:postgresql://localhost:5432/{{ database name }}
+spring.datasource.username = {{ database user username }}
+spring.datasource.password = {{ password} }
+spring.jpa.hibernate.ddl-auto = {{ create / update / create-drop }}
+spring.jpa.database = {{ driver }}
+
+# Microservice
+service.email.url = {{ url }}
+app.url = {{ url }}

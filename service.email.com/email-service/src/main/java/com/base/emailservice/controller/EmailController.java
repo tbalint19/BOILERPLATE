@@ -3,7 +3,6 @@ package com.base.emailservice.controller;
 import com.base.emailservice.model.response.AttemptResponse;
 import com.base.emailservice.model.request.ConfirmRequest;
 import com.base.emailservice.model.request.ResetRequest;
-import com.base.emailservice.model.request.TestRequest;
 import com.base.emailservice.service.EmailService;
 import com.base.emailservice.service.TemplateRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +36,5 @@ public class EmailController {
         return new AttemptResponse(true);
     }
 
-    @PostMapping("/test")
-    public AttemptResponse sendTestMail(@RequestBody TestRequest request) {
-        String subject = "Test";
-        String to = request.getTo();
-        String text = renderer.render("test.ftl", request);
-        emailService.attemptSend(to, subject, text);
-        return new AttemptResponse(true);
-    }
-
-    @PostMapping("/mock")
-    public AttemptResponse mock(){
-        return new AttemptResponse(true);
-    }
 
 }

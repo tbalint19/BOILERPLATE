@@ -1,0 +1,22 @@
+# Server
+server.port = {{ port }}
+
+# Database
+spring.datasource.url = jdbc:postgresql://localhost:5432/{{ database name }}
+spring.datasource.username = {{ username }}
+spring.datasource.password = {{ password }}
+spring.jpa.hibernate.ddl-auto = {{ create / update/ create-drop }}
+spring.jpa.database = {{ database }}
+
+# Security
+security.constant.secretKey = {{ secret key }}
+security.constant.tokenExpiration = {{ expiration in milliseconds }}
+
+# Microservice
+app.url = {{ app url }}
+service.email.url = {{ email service url }}
+
+# Superuser credentials
+superuser.username = {{ username }}
+superuser.email = {{ email }}
+superuser.password = {{ password - change first }}
