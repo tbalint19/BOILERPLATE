@@ -20,6 +20,7 @@ public class DefaultAdminController extends AbstractDefaultAdminAPI {
         if (defaultAdmin.getId() == null) {
             securityManager.secure(defaultAdmin);
         }
+
         defaultAdminRepository.save(defaultAdmin);
         return new SuccessResponse(true);
     }

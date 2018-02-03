@@ -15,13 +15,17 @@ public class AuthController extends AbstractAuthAPI {
 
     @PostMapping("/login")
     public TokenResponse login(@RequestBody LoginRequest request) {
-        DefaultAdmin defaultAdmin = defaultAdminRepository.findByUsername(request.getCredential());
-        String token = null;
+        DefaultAdmin defaultAdmin = defaultAdminRepository.findByUsername(request.getUsername());
         AuthEntity authenticatedDefaultAdmin = securityManager.authenticate(
                 defaultAdmin, request.getPassword());
-        if (authenticatedDefaultAdmin != null) {
-            token = securityManager.authorize(authenticatedDefaultAdmin);
-        }
+
+        if (authenticatedDefaultAdmin == null)
+            return new TokenResponse(null);
+
+        if (!authenticatedDefaultAdmin.getActive())
+            return new TokenResponse(null);
+
+        String token = securityManager.authorize(authenticatedDefaultAdmin);
         return new TokenResponse(token);
     }
 

@@ -1,7 +1,7 @@
 package com.base.usermaintenance.job;
 
 
-import com.base.usermaintenance.repository.UserRepository;
+import com.base.usermaintenance.model.appUserAuth.appUser.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,7 @@ import java.util.Date;
 public class UnconfirmedUserManager {
 
     @Autowired
-    private UserRepository userRepository;
+    private AppUserRepository userRepository;
 
     @Value("@{monitor.delete.user}")
     private long USER_DELETE_DELAY;
@@ -26,6 +26,6 @@ public class UnconfirmedUserManager {
         long current = new Date().getTime();
         Date date = new Date();
         date.setTime(current - USER_DELETE_DELAY);
-        userRepository.deleteApplicationUserByConfirmedAndCreatedBefore(status, date);
+        userRepository.deleteAppUserByConfirmedAndCreatedBefore(status, date);
     }
 }

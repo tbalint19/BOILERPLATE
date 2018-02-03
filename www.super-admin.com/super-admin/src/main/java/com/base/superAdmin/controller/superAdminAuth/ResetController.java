@@ -12,30 +12,42 @@ import org.springframework.web.bind.annotation.*;
 public class ResetController extends AbstractAuthAPI {
 
     @GetMapping("/start")
-    public SuccessResponse startProcess(@RequestParam String credential){
-        SuperAdmin superAdmin = superAdminRepository.findByUsername(credential);
-        if (superAdmin == null){
+    public SuccessResponse startProcess(@RequestParam String username){
+        SuperAdmin superAdmin = superAdminRepository.findByUsername(username);
+        if (superAdmin == null)
             return new SuccessResponse(false);
-        }
+
         SuperAdminPasswordReset superAdminPasswordReset = new SuperAdminPasswordReset(superAdmin);
         superAdminPasswordResetRepository.save(superAdminPasswordReset);
         emailServiceController.sendResetEmail(superAdminPasswordReset);
+
         return new SuccessResponse(true);
     }
 
     @PostMapping("/finish")
     public SuccessResponse finishProcess(@RequestBody ResetRequest request){
         SuperAdmin superAdmin = superAdminRepository.findByUsername(request.getUsername());
-        if (superAdmin == null){
+        if (superAdmin == null)
             return new SuccessResponse(false);
-        }
-        SuperAdminPasswordReset superAdminPasswordReset = superAdminPasswordResetRepository.findByCode(request.getCode());
-        if (superAdminPasswordReset == null) {
+
+        SuperAdminPasswordReset superAdminPasswordReset = superAdminPasswordResetRepository
+                .findByCode(request.getCode());
+        if (superAdminPasswordReset == null)
             return new SuccessResponse(false);
-        }
+
+        if (!superAdminPasswordReset.getSuperAdmin().getId().equals(superAdmin.getId()))
+            return new SuccessResponse(false);
+
+        if (superAdminPasswordReset.getUsed())
+            return new SuccessResponse(false);
+
+        if (!superAdminPasswordReset.getCode().equals(request.getCode()))
+            return new SuccessResponse(false);
+
         superAdmin.setPassword(request.getPassword());
         securityManager.secure(superAdmin);
         superAdminRepository.save(superAdmin);
+
         return new SuccessResponse(true);
     }
 
