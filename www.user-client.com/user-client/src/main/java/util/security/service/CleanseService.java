@@ -2,8 +2,15 @@ package util.security.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class CleanseService {
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
 
     public String cleanseEmail(String email) {
         String username = email.split("@")[0].toLowerCase();
@@ -20,13 +27,17 @@ public class CleanseService {
     }
 
     public String cleanseCredential(String credential) {
-        String emailRegexp = "";
         String cleansed;
-        if (credential.matches(emailRegexp)) {
+        if (isEmail(credential)) {
             cleansed = cleanseEmail(credential);
         } else {
             cleansed = cleanseUsername(credential);
         }
         return cleansed;
+    }
+
+    public Boolean isEmail(String credential) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(credential);
+        return matcher.find();
     }
 }

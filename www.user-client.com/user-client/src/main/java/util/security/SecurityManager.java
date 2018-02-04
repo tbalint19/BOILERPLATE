@@ -43,4 +43,9 @@ public class SecurityManager {
     public String cleanse(String credential) {
         return cleanseService.cleanseCredential(credential);
     }
+
+    public Boolean isEmail(String credential) {
+        return cleanseService.isEmail(credential);
+    }
+
 }

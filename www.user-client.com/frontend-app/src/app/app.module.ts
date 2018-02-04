@@ -48,6 +48,7 @@ import {AuthStatus} from "./status/auth-status";
 import { ConfirmPageComponent } from './component/confirm-page/confirm-page.component';
 import { ConfirmCodeInputComponent } from './component/confirm-code-input/confirm-code-input.component';
 import {ConfirmNavbarComponent} from "./component/confirm-navbar/confirm-navbar.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -75,8 +76,8 @@ import {ConfirmNavbarComponent} from "./component/confirm-navbar/confirm-navbar.
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RoutingModule,
-    HttpModule,
     FormsModule
   ],
   providers: [

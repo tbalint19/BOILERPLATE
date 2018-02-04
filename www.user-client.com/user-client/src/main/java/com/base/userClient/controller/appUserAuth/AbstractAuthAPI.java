@@ -26,10 +26,9 @@ public class AbstractAuthAPI {
     protected EmailServiceController emailServiceController;
 
     protected AppUser findByCredential(String credential) {
-        String emailPattern = "";
         String cleansedCredential = securityManager.cleanse(credential);
 
-        if (credential.matches(emailPattern))
+        if (securityManager.isEmail(credential))
             return appUserRepository.findByEmail(cleansedCredential);
         else
             return appUserRepository.findByUsername(cleansedCredential);
